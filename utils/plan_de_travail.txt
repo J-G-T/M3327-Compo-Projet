@@ -1,0 +1,42 @@
+1 - Énoncé:
+    Composition(s) algorithmique/électroacoustique
+
+2 - Analyses des besoins:
+    Création d'objet(s) sonore(s) :  Construire les sons employés dans la/les pièce(s), développer la sonorité.
+    Algorithme : Fonctionnement et évolution dans le temps des objets sonores.
+    Mode de diffusion : Écoute sur Radio Pyo.
+
+3 - Acquisition de connaissances:
+    Étude de code source de pièce déjà créer (ex. Pièce sur Radio Pyo).
+    Écoute de pièce électroacoustique pour trouver une influence/des idées.
+    Lecture d'article sur l'algorithmie en musique.
+    Lecture sur les objets sonores (morphologie du son, synthèse des sons électroniques, etc.).
+
+4 - Modèle:
+    Une composition algorithmique évolue constamment dans le temps, elle se divise en 
+    deux aspects soit: les objets sonores et l'algorithme.
+    
+    Les objets sonores constitues l'essence même de la pièce. Il faudra sculpter la matière
+    des sons afin d'obtenir des sons complexes, esthétiques et cohérents selont la musicalité
+    de la pièce. 
+    
+    L'algorithme façonne la pièce et lui donne sa forme. Idéalement, il n'effectue pas 
+    exactement le même travail à chaque fois, on laisse une partie de la pièce entre
+    les mains du hasard. 
+
+
+5 - Méthode:
+    Les divers objets sonores seront initialement créer dans plusieurs classes audio, la 
+    nature de ceux-ci, pour l'instant, est indéfinie (synthèse sonore, enregistrement, ...).
+    Les sons seront créés en tenant compte de l'algorithme.
+    
+    La section algorithmique de la/les pièce(s) se développera en parrallèle au son en prenant 
+    compte de leur nature morphologique et leur fonction. Il sera placé dans des classes à 
+    part de l'audio, et recevra alors les objets sonores afin d'en déterminer leur destin. 
+    
+6 - Implémentation:
+    Réalisation concrète à venir...
+    Composition: Diffuser via Radio Pyo. 
+
+7 - Test et maintenance
+    À venir...
