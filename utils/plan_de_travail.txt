@@ -28,10 +28,10 @@
 
 
 5 - Méthode:
-    Les divers objets sonores seront initialement créer dans plusieurs classes audio, la 
-    nature de ceux-ci, pour l'instant, est indéfinie (synthèse sonore, enregistrement, ...).
-    Le travail se fera à l'aide de différent procédé de synthèse sonore: filtrage, modulation 
-    de fréquence, réverbération, ...
+    Les divers objets sonores seront initialement créer dans une section audio d'un programme destinée
+    au développement de ceux-ci. Leur nature, pour l'instant, reste indéfinie (synthèse sonore, 
+    enregistrement, mixte...). Le travail se fera à l'aide de différent procédé de synthèse sonore: 
+    filtrage, modulation de fréquence, réverbération, ...
     
     La section algorithmique de la/les pièce(s) se développera en parrallèle au son en prenant 
     compte de leur nature morphologique et leur fonction. L'algorithme fera plutôt preuve d'un 
