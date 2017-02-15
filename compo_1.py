@@ -1,20 +1,7 @@
 from pyo import *
 import random
-
-s = Server().boot()
-
-#Table(s)#
-tab = CurveTable(list=[(0, 0), (250, 0.1), (500, 0.25), (1000, 0.075), (1500, 0.1), (2000, 0.7), (3000, 0.7), 
-                                   (4096, 0.3), (5000, 0.1), (6100, 0.15), (7000, 0.1), (8191, 0.0)])
-tab2 = CurveTable(list=[(0, 0), (250, 0.7), (500, 0.25), (1000, 0.075), (1500, 0.1), (2000, 0.7), (3000, 0.7), 
-                                     (4096, 0.3), (5000, 0.1), (6100, 0.15), (7000, 0.1), (8191, 0.0)])
-#tab.view()
-#tab2.view()
-
-tabd = CurveTable(list=[(0,0.7), (1024, 0.3), (2048, 0.3), (4096, 0.8), (6144, 0.05), (8192, 0)])
-tabd.view()
-
-#Generator#
+        
+#Generator/Class#
 class OscAug:
     '''
     L'Oscillateur Augmente
@@ -80,7 +67,6 @@ class OscAug:
     def playm(self, x):
         self.freq.value = midiToHz(x)
         self.fade.play()
-        
 
 class DM:
     '''
@@ -117,6 +103,19 @@ class DM:
 
 
 #SECTION DE TEST#
+s = Server().boot()
+
+#Table(s)#
+tab = CurveTable(list=[(0, 0), (250, 0.1), (500, 0.25), (1000, 0.075), (1500, 0.1), (2000, 0.7), (3000, 0.7), 
+                                   (4096, 0.3), (5000, 0.1), (6100, 0.15), (7000, 0.1), (8191, 0.0)])
+tab2 = CurveTable(list=[(0, 0), (250, 0.7), (500, 0.25), (1000, 0.075), (1500, 0.1), (2000, 0.7), (3000, 0.7), 
+                                     (4096, 0.3), (5000, 0.1), (6100, 0.15), (7000, 0.1), (8191, 0.0)])
+#tab.view()
+#tab2.view()
+
+tabd = CurveTable(list=[(0,0.7), (1024, 0.3), (2048, 0.3), (4096, 0.8), (6144, 0.05), (8192, 0)])
+tabd.view()
+
 
 #Graves
 og = OscAug(tab, phs=.05, ofrq=50).out()
