@@ -2,6 +2,14 @@ from pyo import *
 import random
 from DM import DM
         
+'''
+Note:
+    1. Faire une classe/méthode de l'appel des notes de 'def melo():'
+    2. Developper la section event_x()
+    3. Mettre OscAug et DM dans le fichier ressources et faire un appel via le fichier
+    4. Creer un instrument favorisant le rythme grave (comme tambour?)
+'''
+
 class OscAug:
     '''
     L'Oscillateur Augmente
@@ -27,7 +35,7 @@ class OscAug:
     '''
     def __init__(self, table, phs=.1, ofrq=45, allfrq=50, allfeed=.01, dur=0, mul=0.5):
         #Fader pour gerer les clicks.
-        self.fade = Fader(fadein=1, fadeout=1.5, dur=dur, mul=mul)
+        self.fade = Fader(fadein=1.2, fadeout=2.3, dur=dur, mul=mul)
         #Automation
         self.oaut = Sine(freq=phs, mul=0.5, add=0.5)
         self.allaut = Sine(freq=allfeed, mul=0.25, add=0.75)
@@ -80,7 +88,7 @@ tab2 = CurveTable(list=[(0, 0), (250, 0.7), (500, 0.25), (1000, 0.075), (1500, 0
 #tab2.view()
 
 tabd = CurveTable(list=[(0,0.7), (1024, 0.3), (2048, 0.3), (4096, 0.8), (6144, 0.05), (8192, 0)])
-tabd.view()
+#tabd.view()
 
 
 #Graves
@@ -88,35 +96,68 @@ og = OscAug(tab, phs=.05, ofrq=50).out()
 og2 = OscAug(tab, phs=.01, ofrq=100, mul=0.3).out()
 
 #Aigue
-oa = OscAug(tab, phs=0.05, ofrq=4000, allfeed=1, mul=0.05, dur=0.5).out()
+oa = OscAug(tab, phs=0.1, ofrq=4200, allfeed=1, mul=0.05, dur=2).out()
 
 #Melo
-om = OscAug(tab2, phs=0.28, ofrq=midiToHz(53), allfeed=10, dur=3).out()
-om2 = OscAug(tab2, phs=0.34, ofrq=midiToHz(56), allfeed=8, dur=3).out()
+om = OscAug(tab2, phs=0.28, ofrq=midiToHz(53), allfeed=10, dur=4.5).out()
+om2 = OscAug(tab2, phs=0.35, ofrq=midiToHz(56), allfeed=8, dur=4.5).out()
 om.stop(); om2.stop()
 
 #Rythme
-autdm = Sine(0.1).range(0, 0.6)
-drm = DM(tabd, ffrq=1000, f1=0, f2=1, mul=autdm).play()
+autdm = Sine(0.1).range(0, 0.5)
+drm = DM(tabd, ffrq=1000, f1=0, f2=0, mul=autdm).play()
 
 
 #Gestion du temps#
-ptime = 0
 count = 0
 prate = 0
+lastind = 7
+z = 6
+x = 6
+list = [53, 55, 56, 58, 60, 61, 63, 65, 67, 68, 70, 72, 73, 75]
 
 def melo():
-    global count, prate, ptime
+    global count, prate, lastnote, lastind, z, x
     prate += 1
     if prate <= 5:
         if count == 0:
-            #Pige note pour om;
-            om.playm(random.choice([53, 55, 56, 58, 60, 61, 63, 65, 67, 68, 70, 72, 73, 74]))
+            #Pige note selon list (Fa min) pour om;
+            if lastind > 1 and lastind < 13:
+                z = random.randint(-2, 3) + lastind
+                note = list[z]
+                om.playm(note)
+                lastind = z
+            elif lastind <= 1:
+                z = random.randint(2, 6) + lastind
+                note = list[z]
+                om.playm(note)
+                lastind = z
+            elif lastind >= 12:
+                z = random.randint(-5, -1) + lastind
+                note = list[z]
+                om.playm(note)
+                lastind = z
             count += 1
+            print lastind
         elif count == 1:
-            
-            om2.playm(random.choice([53, 55, 56, 58, 60, 61, 63, 65, 67, 68, 70, 72, 73, 74]))
+            #Pige note selon list (Fa min) pour om2;
+            if lastind > 1 and lastind < 13:
+                x = random.randint(-2, 3) + lastind
+                note = list[x]
+                om2.playm(note)
+                lastind = x
+            elif lastind <= 1:
+                x = random.randint(2, 6) + lastind
+                note = list[x]
+                om2.playm(note)
+                lastind = x                
+            elif lastind >= 12:
+                x = random.randint(-5, -1) + lastind
+                note = list[x]
+                om2.playm(note)
+                lastind = x
             count -= 1
+            print lastind
     elif prate > 7 and prate < 10:
         om.stop(); om2.stop()
     elif prate >= 10:
@@ -124,6 +165,22 @@ def melo():
 
 def drum():
     drm.play()
+
+''' #############################En developpement
+
+def event_0(): 
+    og.out(); og2.out()
+    melo.play()
+    drm.play()
+def event_1():
+    oa.play()
+def event_2():
+
+met = Metro(5).play()
+count = Counter(met, min=0, max=20)
+time = Score(count)
+    
+'''
 
 pat = Pattern(function=[melo], time=2).play()
 patr = Pattern(function=drum, time=0.125).play()
