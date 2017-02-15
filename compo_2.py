@@ -2,8 +2,12 @@ from pyo import *
 import random
 
 '''
+Composition sur la transformation graduelle d'une piece.
+
 Note:
-    1. Essayer de rendre tous les sons mono. a l'interieur du programme... sinon les rendre mono.
+    1. Transition de vertflute a vertintf
+    2. Continuer decoupage de la piece
+    3. Enlever Pan/obtenir objet mono.
 
 '''
 
@@ -71,6 +75,7 @@ def event_3():
     barb.play()
 def event_4():
     barb.stop()
+    sfp.stop()
     
 met = Metro(5).play()
 count = Counter(met, min=0, max=20)

@@ -177,7 +177,7 @@ def event_2():
 met = Metro(5).play()
 count = Counter(met, min=0, max=20)
 time = Score(count)
-    
+
 '''
 
 pat = Pattern(function=[melo], time=2).play()
