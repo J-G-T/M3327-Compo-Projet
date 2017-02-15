@@ -1,5 +1,5 @@
 from pyo import *
-import random, wx
+import random
 
 audioServer = Server(sr=44100, nchnls=2, buffersize=256).boot()
 audioServer.start()

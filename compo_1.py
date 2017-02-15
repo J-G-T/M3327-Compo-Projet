@@ -138,7 +138,6 @@ def melo():
                 om.playm(note)
                 lastind = z
             count += 1
-            print lastind
         elif count == 1:
             #Pige note selon list (Fa min) pour om2;
             if lastind > 1 and lastind < 13:
@@ -157,7 +156,6 @@ def melo():
                 om2.playm(note)
                 lastind = x
             count -= 1
-            print lastind
     elif prate > 7 and prate < 10:
         om.stop(); om2.stop()
     elif prate >= 10:
