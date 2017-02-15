@@ -1,46 +1,46 @@
-1 - Ã‰noncÃ©:
-    Composition(s) algorithmique/Ã©lectroacoustique
+1 - Énoncé:
+    Composition(s) algorithmique/électroacoustique
 
 2 - Analyses des besoins:
-    CrÃ©ation d'objet(s) sonore(s) :  Construire les sons employÃ©s dans la/les piÃ¨ce(s), dÃ©velopper la sonoritÃ©.
-    Algorithme : Fonctionnement et Ã©volution dans le temps des objets sonores.
-    Mode de diffusion : Ã‰coute sur Radio Pyo.
+    Création d'objet(s) sonore(s) :  Construire les sons employés dans la/les pièce(s), développer la sonorité.
+    Algorithme : Fonctionnement et évolution dans le temps des objets sonores.
+    Mode de diffusion : Écoute sur Radio Pyo.
 
 3 - Acquisition de connaissances:
-    Ã‰tude de code source de piÃ¨ce d'autres compositeurs (ex. PiÃ¨ce sur Radio Pyo).
-    Ã‰coute de piÃ¨ce Ã©lectroacoustique pour trouver une influence/des idÃ©es.
+    Étude de code source de pièce d'autres compositeurs (ex. Pièce sur Radio Pyo).
+    Écoute de pièce électroacoustique pour trouver une influence/des idées.
     Lecture d'article sur l'algorithmie en musique.
-    Lecture sur les objets sonores (morphologie du son, synthÃ¨se des sons Ã©lectroniques, etc.).
+    Lecture sur les objets sonores (morphologie du son, synthèse des sons électroniques, etc.).
 
-4 - ModÃ¨le:
-    Une composition algorithmique Ã©volue constamment dans le temps, elle se divise en 
+4 - Modèle:
+    Une composition algorithmique évolue constamment dans le temps, elle se divise en 
     deux aspects soit: les objets sonores et l'algorithme.
     
-    Les objets sonores constitues l'essence mÃªme de la piÃ¨ce. Il faudra sculpter la matiÃ¨re
-    des sons afin d'obtenir des sons complexes, esthÃ©tiques et cohÃ©rents selont les besoins 
+    Les objets sonores constitues l'essence même de la pièce. Il faudra sculpter la matière
+    des sons afin d'obtenir des sons complexes, esthétiques et cohérents selont les besoins 
     de la composition. Le travail des sons s'effectuera avec un soucie des sons qui le 
-    complÃ©mente, de l'algorithme et de la musicalitÃ© de la piÃ¨ce en gÃ©nÃ©ral.
+    complémente, de l'algorithme et de la musicalité de la pièce en général.
     
-    L'algorithme faÃ§onne la piÃ¨ce et lui donne sa forme. IdÃ©alement, il n'effectue pas 
-    exactement le mÃªme travail Ã  chaque fois, on laisse une partie de la piÃ¨ce entre
+    L'algorithme façonne la pièce et lui donne sa forme. Idéalement, il n'effectue pas 
+    exactement le même travail à chaque fois, on laisse une partie de la pièce entre
     les mains du hasard. L'algorithme tient en compte les objets sonores et permettra
     l'organisation de ceux-ci temporellement. 
 
 
-5 - MÃ©thode:
-    Les divers objets sonores seront initialement crÃ©er dans une section audio d'un programme destinÃ©
-    au dÃ©veloppement de ceux-ci. Leur nature, pour l'instant, reste indÃ©finie (synthÃ¨se sonore, 
-    enregistrement, mixte...). Le travail se fera Ã  l'aide de diffÃ©rent procÃ©dÃ© de synthÃ¨se sonore: 
-    filtrage, modulation de frÃ©quence, rÃ©verbÃ©ration, ...
+5 - Méthode:
+    Les divers objets sonores seront initialement créer dans une section audio d'un programme destinée
+    au développement de ceux-ci. Leur nature, pour l'instant, reste indéfinie (synthèse sonore, 
+    enregistrement, mixte...). Le travail se fera à l'aide de différent procédé de synthèse sonore: 
+    filtrage, modulation de fréquence, réverbération, ...
     
-    La section algorithmique de la/les piÃ¨ce(s) se dÃ©veloppera en parrallÃ¨le au son en prenant 
-    compte de leur nature morphologique et leur fonction. L'algorithme fera plutÃ´t preuve d'un 
-    travail au niveau de la temporalitÃ© et sera prÃ©dÃ©terminÃ© et se divisera alors en plusieurs
-    algorithmes diffÃ©rents pour chaque sons.
+    La section algorithmique de la/les pièce(s) se développera en parrallèle au son en prenant 
+    compte de leur nature morphologique et leur fonction. L'algorithme fera plutôt preuve d'un 
+    travail au niveau de la temporalité et sera prédéterminé et se divisera alors en plusieurs
+    algorithmes différents pour chaque sons.
     
-6 - ImplÃ©mentation:
-    RÃ©alisation concrÃ¨te Ã  venir...
+6 - Implémentation:
+    Réalisation concrète à venir...
     Composition: Diffuser via Radio Pyo. 
 
 7 - Test et maintenance
-    Ã€ venir...
+    À venir...
