@@ -2,7 +2,6 @@ from pyo import *
 import random
 from DM import DM
         
-#Generator/Class#
 class OscAug:
     '''
     L'Oscillateur Augmente
