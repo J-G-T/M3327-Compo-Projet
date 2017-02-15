@@ -1,5 +1,6 @@
 from pyo import *
 import random
+from DM import DM
         
 #Generator/Class#
 class OscAug:
@@ -67,40 +68,6 @@ class OscAug:
     def playm(self, x):
         self.freq.value = midiToHz(x)
         self.fade.play()
-
-class DM:
-    '''
-    Drum Machine
-    
-    Arguments:
-        table : PyoTableObject
-            Table de forme d'onde pour l'objet Osc.
-        ffrq : float ou PyoObject
-            Frequence des deux filtres (au choix).
-        f1 : float
-            Choix du filtre 1 selon l'objet biquad.
-        f2 : float
-            Choix du filtre 2 selon l'objet biquad.
-        q : float
-            Q des filtres.
-        feedback : float ou PyoObject
-            Feedback de la reverb.
-        bal : float ou PyoObject
-            Balance entre wet/dry du signal de reverb.
-
-    '''
-    def __init__(self, table, ffrq=500, f1=0, f2=1, q=2, feedback=0.6, bal=0.3, mul=1):
-        self.fadn = Fader(fadein=0.001, fadeout=0.1, dur=0.1001, mul=mul)
-        self.osc = Osc(table, freq=1000).mix(2)
-        self.nos = Noise(mul=self.fadn)
-        self.filt1 = Biquad(self.nos*self.osc, freq=ffrq, q=q, type=f1)
-        self.filt2 = Biquad(self.filt1, freq=ffrq, q=q, type=f2)
-        self.dverb = WGVerb(self.filt1+self.filt2, feedback=feedback, bal=bal).out() 
-
-    def play(self):
-        self.fadn.play()
-        return self
-
 
 #SECTION DE TEST#
 s = Server().boot()
