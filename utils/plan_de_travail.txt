@@ -39,8 +39,12 @@
     algorithmes différents pour chaque sons.
     
 6 - Implémentation:
-    Réalisation concrète à venir...
-    Composition: Diffuser via Radio Pyo. 
+    Composition 1: Diffusion sur RadioPyo
+        -Class
+            1. OscAug
+            2. DM 
+    
+    Composition 2: Transformation graduelle d'une pièce.
 
 7 - Test et maintenance
     À venir...
