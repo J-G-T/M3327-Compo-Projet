@@ -1,6 +1,6 @@
 from pyo import *
 import random
-from DM import DM
+from Resources.DM import DM
         
 '''
 Note:
@@ -105,8 +105,9 @@ om.stop(); om2.stop()
 
 #Rythme
 autdm = Sine(0.1).range(0, 0.5)
-drm = DM(tabd, ffrq=1000, f1=0, f2=0, mul=autdm).play()
-
+drm = DM(tabd, ffrq=1000, f1=0, f2=1, mul=autdm).play()
+#Rthm B.
+drb = DM(tabd, ffrq=1000, f1=0, f2=0, mul=1).play()
 
 #Gestion du temps#
 count = 0
@@ -122,36 +123,36 @@ def melo():
     if prate <= 5:
         if count == 0:
             #Pige note selon list (Fa min) pour om;
-            if lastind > 1 and lastind < 13:
-                z = random.randint(-2, 3) + lastind
+            if lastind > 1 and lastind < 12:
+                z = random.randint(-2, 2) + lastind
                 note = list[z]
                 om.playm(note)
                 lastind = z
             elif lastind <= 1:
-                z = random.randint(2, 6) + lastind
+                z = random.randint(2, 5) + lastind
                 note = list[z]
                 om.playm(note)
                 lastind = z
             elif lastind >= 12:
-                z = random.randint(-5, -1) + lastind
+                z = random.randint(-5, -2) + lastind
                 note = list[z]
                 om.playm(note)
                 lastind = z
             count += 1
         elif count == 1:
             #Pige note selon list (Fa min) pour om2;
-            if lastind > 1 and lastind < 13:
-                x = random.randint(-2, 3) + lastind
+            if lastind > 1 and lastind < 12:
+                x = random.randint(-2, 2) + lastind
                 note = list[x]
                 om2.playm(note)
                 lastind = x
             elif lastind <= 1:
-                x = random.randint(2, 6) + lastind
+                x = random.randint(2, 5) + lastind
                 note = list[x]
                 om2.playm(note)
                 lastind = x                
             elif lastind >= 12:
-                x = random.randint(-5, -1) + lastind
+                x = random.randint(-5, -2) + lastind
                 note = list[x]
                 om2.playm(note)
                 lastind = x
@@ -179,6 +180,8 @@ count = Counter(met, min=0, max=20)
 time = Score(count)
 
 '''
+def bass():
+    drm.play()
 
 pat = Pattern(function=[melo], time=2).play()
 patr = Pattern(function=drum, time=0.125).play()

@@ -1,11 +1,10 @@
 from pyo import *
-import random, wx
+import random
 
-s = Server().boot()
+audioServer = Server(sr=44100, nchnls=2, buffersize=256).boot()
+audioServer.start()
 
 tabd = CurveTable(list=[(0,0.7), (1024, 0.3), (2048, 0.3), (4096, 0.8), (6144, 0.05), (8192, 0)])
-tabd.view()
-
 
 class DM:
     '''
@@ -41,11 +40,11 @@ class DM:
         return self
 
 #SECTION TEST#
-drm = DM(tabd, ffrq=1000, f1=0, f2=1).play()
+if __name__ == "__main__":
+    drm = DM(tabd, ffrq=1000, f1=0, f2=1).play()
+    def drum():
+        drm.play()
 
-def drum():
-    drm.play()
-
-patty = Pattern(drum, time=1).play()
-
-s.gui(locals())
+    patty = Pattern(drum, time=1).play()
+    
+    audioServer.gui(locals())
