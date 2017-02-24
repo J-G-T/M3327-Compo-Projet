@@ -39,6 +39,10 @@ class DM:
         self.fadn.play()
         return self
 
+    def sig(self):
+        "Retourne le signal audio de la classe, pour le post-traitement."
+        return self.dverb
+
 #SECTION TEST#
 if __name__ == "__main__":
     drm = DM(tabd, ffrq=1000, f1=0, f2=1).play()
