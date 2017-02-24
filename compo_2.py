@@ -13,6 +13,7 @@ Note:
 
 
 s = Server().boot()
+s.amp=0.5
 #s.setStartOffset(30)
 
 #Morceau de piece
