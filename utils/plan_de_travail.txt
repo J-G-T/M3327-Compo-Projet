@@ -8,8 +8,16 @@
 
 3 - Acquisition de connaissances:
     Étude de code source de pièce d'autres compositeurs (ex. Pièce sur Radio Pyo).
+        - Aquisition de la compréhension des event_0 (avec Metro, counter et Score) pour construire l'évolution temporelle de la pièce.
+        - Comprendre la manière de construire un fichier python pour l'introduire sur la radio pyo (organisation d'un projet en un seul fichier)
+        
     Écoute de pièce électroacoustique pour trouver une influence/des idées.
+        - Écoute des pièces sur radio-pyo pour influence de la compo_1
+        - Diverses écoutes de pièce à répétition (Music in 12 Parts, Philip Glass).
+        
     Lecture d'article sur l'algorithmie en musique.
+        - Synth Secrets, Part 2: The Physics of percussion, pour la réalisation de l'objet DM.
+        
     Lecture sur les objets sonores (morphologie du son, synthèse des sons électroniques, etc.).
 
 4 - Modèle:
@@ -43,8 +51,15 @@
         -Class
             1. OscAug
             2. DM 
-    
+
     Composition 2: Transformation graduelle d'une pièce.
 
 7 - Test et maintenance
-    À venir...
+    Compo_1
+        Test: Essai de retirer les objets Compress, Delay et WGVerb de la classe OscAug - Sans succès. Le son résultant 
+                 était trop différent. À revoir...
+        Maintenance: ...
+                
+
+
+

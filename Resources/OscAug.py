@@ -1,8 +1,5 @@
 from pyo import *
 
-audioServer = Server(sr=44100, nchnls=2, buffersize=256).boot()
-audioServer.start()
-
 class OscAug:
     '''
     L'Oscillateur Augmente
@@ -34,7 +31,7 @@ class OscAug:
         #SigTo - Pour gerer les changements de frequences
         self.freq = SigTo(value=ofrq, time=0.005, init=ofrq)
         #Oscillateur avec table 
-        self.osc = Osc(tab, freq=self.freq, phase=self.oaut, mul=0.15)
+        self.osc = Osc(table, freq=self.freq, phase=self.oaut, mul=0.15)
         #AllPass applique a Osc.
         self.alw = AllpassWG(self.osc.mix(2), freq=50, feed=self.allaut, detune=0.21)
         #Compression du signal avant l'envoi.
@@ -52,12 +49,18 @@ class OscAug:
         return self
 
     def stop(self):
-        "Methode pour arreter la sortie audio"
+        "Methode pour arreter la sortie audio initiale"
         self.fade.stop()
         return self
-
+        
     def play(self):
         "Play pour objet qui necessite des changements d'amplitudes rapides"
+        self.fade.play()
+        return self
+
+    def playm(self, x):
+        "Choix de note selon 12 <= x <= 127 (MIDI)"
+        self.freq.value = midiToHz(x)
         self.fade.play()
         return self
 
@@ -65,11 +68,6 @@ class OscAug:
         "Change la frequence de l'oscillateur"
         self.freq.value = x
 
-    def playm(self, x):
-        "Choix de note selon 12 <= x <= 127 (MIDI)"
-        self.freq.value = midiToHz(x)
-        self.fade.play()
-        
     def sFade(self, x, y):
         "Ajustement du fadein et fadeout"
         self.fade.fadein = x
@@ -79,17 +77,31 @@ class OscAug:
         "Retourne le signal audio de la classe, pour le post-traitement."
         return self.objs
 
-#SECTION TEST#
+    def tesot(self):
+        "test"
+        self.alw.out()
+        self.fade.play()
+        return self
 
-tab = CurveTable(list=[(0, 0), (250, 0.1), (500, 0.25), (1000, 0.075), (1500, 0.1), (2000, 0.7), (3000, 0.7), 
+#SECTION TEST#
+if __name__ == "__main__":
+
+    TEST = 1   
+
+    audioServer = Server(sr=44100, nchnls=2, buffersize=256).boot()
+    audioServer.start()    
+
+    tab = CurveTable(list=[(0, 0), (250, 0.1), (500, 0.25), (1000, 0.075), (1500, 0.1), (2000, 0.7), (3000, 0.7), 
                                    (4096, 0.3), (5000, 0.1), (6100, 0.15), (7000, 0.1), (8191, 0.0)])
 
-if __name__ == "__main__":
-    OA1 = OscAug(tab, mul=0.6).out()
-    OA2 = OscAug(tab, phs=0.75, ofrq=500, dur=5, mul=0.2).out()
-    def Osc():
-        OA2.play()
-
-    patty = Pattern(Osc, time=5).play()
-    
+    if TEST == 1:
+        OA1 = OscAug(tab, mul=0.6).out()
+        OA2 = OscAug(tab, phs=0.75, ofrq=500, dur=5, mul=0.2).out()
+        def Osc():
+            OA2.play()
+        patty = Pattern(Osc, time=5).play()
+        
+    elif TEST == 2:
+        OA1 = OscAug(tab, mul=0.6).tesot()
+        
     audioServer.gui(locals())
