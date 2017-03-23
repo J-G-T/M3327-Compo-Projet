@@ -23,11 +23,11 @@ tabd = CurveTable(list=[(0,0.7), (1024, 0.3), (2048, 0.3), (4096, 0.8), (6144, 0
 ###################
 
 #Graves
-autog1 = Sine(0.1).range(0.1, 0.23)
-autog2 = Sine(0.05).range(0.15, 0.27)
+autog1 = Sine(0.1).range(0.1, 0.20)
+autog2 = Sine(0.05).range(0.15, 0.22)
 og = OscAug(tab, phs=.05, ofrq=50, dur=95, mul=autog1)
 og2 = OscAug(tab, phs=.01, ofrq=101, dur=87, mul=autog2)
-og3 = OscAug(tab3, phs=.07, allfeed=.05, ofrq=51, dur=103, mul=0.38).out()
+og3 = OscAug(tab3, phs=.07, allfeed=.05, ofrq=51, dur=103, mul=0.27).out()
 
 #Melo
 om = OscAug(tab2, phs=0.28, ofrq=midiToHz(53), allfeed=10, dur=4.5, mul=0.25).out()
@@ -117,9 +117,10 @@ def melo():
 def event_0():
     pass
 def event_1():
-    btdb.play()
+    pass
 def event_2():
     og.out()
+    btdb.play()
 def event_3():
     patr.play()
 def event_4():
@@ -162,7 +163,7 @@ def event_18():
 def event_19():
     btcmb.play()
 def event_20():
-    drm.sFeedb(0.45)
+    drm.sFeedb(0.65)
     patr.play()
     btcmb.stop()
 def event_21():

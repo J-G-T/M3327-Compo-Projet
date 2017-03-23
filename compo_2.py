@@ -1,85 +1,94 @@
 from pyo import *
 import random
-
-'''
-Composition sur la transformation graduelle d'une piece.
-
-Note:
-    1. Transition de vertflute a vertintf
-    2. Continuer decoupage de la piece
-    3. Enlever Pan/obtenir objet mono.
-
-'''
-
+from Resources.Graverb import Graverb
 
 s = Server().boot()
-s.amp=0.5
-#s.setStartOffset(30)
 
-#Morceau de piece
-f1 = "vert.wav"
-f1_len = sndinfo('vert.wav')[1]
+'''
+Compo_3: AutoMusic 
 
-f2 = "vertflute.wav"
-f2_len = sndinfo('vertflute.wav')[1]
+Une musique se compose « seul », algorithmiquement, a l'aide de trois sons. 
 
-f3 = "vertintf.wav"
-f3_len = sndinfo('vertintf.wav')[1]
-#
+'''
 
-class BBP:
-    '''
-    Barberpole
+GSOUND = 2
 
-    Arguments:
-        input : PyoObject
-            Objet pyo en entree.
-        sf : float ou PyoObject
-            Frequence du Sine() qui balaie le pitch
-        rmin : float ou PyoObject
-            Range minimum du Sine()
-        rmax : float ou PyoObject
-            Range maximum du Sine()
-        mul : float ou PyoObject
-    
-    '''
-    def __init__(self, input, sf=.1, rmin=-10, rmax=10, mul=1):
-        self.fade = Fader(fadein=2, fadeout=2, mul=mul)
-        self.pva = PVAnal(input, size=2048, overlaps=8)
-        self.lfo = Sine(sf).range(rmin, rmax)
-        self.pvsh = PVShift(self.pva, shift=self.lfo)
-        self.pvs = PVSynth(self.pvsh)
-        self.pan = Pan(self.pvs, outs=2, pan=0.5, spread=0.3, mul=self.fade)
-    
-    def play(self, chnl=0):
-        "Retourne le signal audio en sortie de la classe"
-        self.pan.out(chnl)
-        self.fade.play()
+if GSOUND == 0:
+    sound1 = 'Sound/mota.wav'
+    sound2 = 'Sound/motb.wav'
+    sound3 = 'Sound/motc.wav'
+elif GSOUND == 1:
+    sound1 = 'Sound/vert.wav'
+    sound2 = 'Sound/vertflute.wav'
+    sound3 = 'Sound/vertintf.wav'
+elif GSOUND == 2:
+    sound1 = "Sound/g3_megflute.wav"
+    sound2 = "Sound/g3_aeros.wav"
+    sound3 = "Sound/g3_ring.wav"
+
+env = CosTable(list=[(0,0.0000), (2000, 0.7), (3970,0.8133), (5000, 0.7), (8192,0.0000)])
+
+class PRead:
+    def __init__(self, input, spd=0.7, min=0.66, max=0.8, mul=0.5):
+        self.input = input
+        #Longueur du son
+        self.length = sndinfo(self.input)[1]
+        #SndTable
+        self.sndtable = SndTable(self.input, start=0, stop=self.length)
+        #Initialisation du contrôle de l'index
+        self.ind = Sine(spd).range(min, max)
+        #Pointer pour lire la table selon l'index
+        self.point = Pointer2(self.sndtable, self.ind, mul=mul)
+
+    def out(self, chnl=0):
+        "Signal audio en sortie"
+        self.point.out(chnl)
+        return self
+
+    def sig(self):
+        "Retourne le signal audio de la classe, pour le post-traitement."
+        return self.point
+
+class AutoR:
+    def __init__(self, input, env, time=1, dens=100, filfrq=18000, ftt=2, mul=0.1):
+        self.input = input
+        #Longueur du son
+        self.length = sndinfo(self.input)[1]
+        #SampleRate du son
+        self.sprate = sndinfo(self.input)[2]
+        #SndTable
+        self.soundtable = SndTable(self.input, start=0, stop=self.length)
+        #Metro/Trig
+        self.met = Metro(time=time).play()
+        #Automatisation de la position
+        self.random = TrigRand(self.met, min=1, max=self.sprate*self.length, port=0.05)
+        #Particle2 pour la position
+        self.parti = Particle2(self.soundtable, env, dens=dens, pitch=1, pos=self.random, filterfreq=filfrq, filtertype=ftt,
+                                        mul=mul)
+
+    def out(self, chnl=0):
+        "Signal audio en sortie"
+        self.parti.out(chnl)
         return self
         
-    def stop(self):
-        self.fade.stop()
-        return self
+    def sig(self):
+        "Retourne le signal audio de la classe, pour le post-traitement."
+        return self.parti
 
-sfp = SfPlayer(f2, loop=True)
-pa = Pan(sfp, outs=1, pan=0.5, spread=0).out()
+ptr1 = PRead(sound1, spd=0.1, mul=0.7)
+ptr2 = PRead(sound2, spd=0.4, min=0.15, max=0.4, mul=0.3)
+ptr3 = PRead(sound3, spd=5, min=0.2, max=0.6, mul=0.05)
 
-barb = BBP(sfp, mul=1)
+grav1 = Graverb(ptr1.sig(), env, time=2, dur=0.05, fb=0.9, bal=0.6, mul=1).out()
+grav2 = Graverb(ptr2.sig(), env, time=0.15, dur=0.15, fb=0.7, bal=0.8, mul=1).out()
+grav3 = Graverb(ptr3.sig(), env, dur=0.2, fb=0.9, bal=0.86, mul=1).out()
 
-def event_0():
-    sfp.out()
-def event_1():
-    barb.play()
-def event_2():
-    barb.stop()
-def event_3():
-    barb.play()
-def event_4():
-    barb.stop()
-    sfp.stop()
-    
-met = Metro(5).play()
-count = Counter(met, min=0, max=20)
-time = Score(count)
+autar1 = Sine(.1, phase=0.75).range(0, 0.05)
+
+ar1 = AutoR(sound1, env, dens=500, time=10, ftt=0, filfrq=2000, mul=autar1).out()
+ar2 = AutoR(sound2, env).out()
+ar3 = AutoR(sound3, env, time=0.125, dens=300, filfrq=1000).out()
+
+#Passer un compressor au bout de tout les sons pour gérer les sons trop puissant
 
 s.gui(locals())
