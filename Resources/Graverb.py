@@ -20,7 +20,7 @@ class Graverb:
         bal : PyoObject ou Float
             Balance entre dry/wet du son original vs avec effet.
         mul : float ou PyoObject
-            Controle du volume de l'instrument.
+            Controle du volume de l'objet.
 
     '''
     def __init__(self, input, env, time=1, dur=0.15, fb=0.8, type=0, bal=0.5, mul=0.3):
@@ -48,7 +48,7 @@ class Graverb:
 #SECTION TEST#
 if __name__ == "__main__":
 
-    TEST = 1
+    TEST = 2
 
     audioServer = Server(sr=44100, nchnls=2, buffersize=256).boot()
     audioServer.start()    
