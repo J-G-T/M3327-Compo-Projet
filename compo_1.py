@@ -30,10 +30,9 @@ og2 = OscAug(tab, phs=.01, ofrq=101, dur=87, mul=autog2)
 og3 = OscAug(tab3, phs=.07, allfeed=.05, ofrq=51, dur=103, mul=0.27).out()
 
 #Melo
-om = OscAug(tab2, phs=0.28, ofrq=midiToHz(53), allfeed=10, dur=4.5, mul=0.25).out()
-om2 = OscAug(tab2, phs=0.35, ofrq=midiToHz(56), allfeed=8, dur=4.5, mul=0.25).out()
+om = OscAug(tab2, phs=0.28, ofrq=midiToHz(53), allfeed=10, dur=4.5, mul=0.25)
+om2 = OscAug(tab2, phs=0.35, ofrq=midiToHz(56), allfeed=8, dur=4.5, mul=0.25)
 om.sFade(1.2, 2.3); om2.sFade(1.2, 2.3)
-om.stop(); om2.stop()
 
 #Rythme principal.
 autdm = Sine(0.09).range(0, 0.5)
@@ -74,6 +73,7 @@ def melo():
     prate += 1
     if prate <= 5:
         if count == 0:
+            om.out()
             #Pige note selon list (Fa min) pour om;
             if lastind > 1 and lastind < 12:
                 z = random.randint(-2, 2) + lastind
@@ -92,6 +92,7 @@ def melo():
                 lastind = z
             count += 1
         elif count == 1:
+            om2.out()
             #Pige note selon list (Fa min) pour om2;
             if lastind > 1 and lastind < 12:
                 x = random.randint(-2, 2) + lastind

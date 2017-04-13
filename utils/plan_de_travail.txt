@@ -52,13 +52,14 @@
             1. OscAug
             2. DM 
 
-    Composition 2: Transformation graduelle d'une pièce.
+    Composition 2: Transformation graduelle d'une pièce générée par trois sons au choix.
+        -Class
+            1. PRead
+            2. Graverb
+            3. AutoR
 
 7 - Test et maintenance
-    Compo_1
-        Test: Essai de retirer les objets Compress, Delay et WGVerb de la classe OscAug - Sans succès. Le son résultant 
-                 était trop différent. À revoir...
-        Maintenance: ...
+    Tous les jours!
                 
 
 
