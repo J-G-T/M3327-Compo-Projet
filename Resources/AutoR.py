@@ -23,16 +23,14 @@ class AutoR:
     '''
     def __init__(self, input, env, time=1, dens=100, filfrq=18000, ftt=2, mul=0.1):
         self.input = input
-        #Longueur du son
-        self.length = sndinfo(self.input)[1]
-        #SampleRate du son
-        self.sprate = sndinfo(self.input)[2]
+        #Longueur(1)/SampleRate(2) du son
+        self.snd = sndinfo(self.input)
         #SndTable
-        self.soundtable = SndTable(self.input, start=0, stop=self.length)
+        self.soundtable = SndTable(self.input, start=0, stop=self.snd[1])
         #Metro/Trig
         self.met = Metro(time=time).play()
         #Automatisation de la position
-        self.random = TrigRand(self.met, min=1, max=self.sprate*self.length, port=0.05)
+        self.random = TrigRand(self.met, min=1, max=self.snd[2]*self.snd[1], port=0.05)
         #Particle2 pour la position
         self.parti = Particle2(self.soundtable, env, dens=dens, pitch=1, pos=self.random, filterfreq=filfrq, filtertype=ftt,
                                         mul=mul)

@@ -51,6 +51,7 @@ class OscAug:
     def stop(self):
         "Methode pour arreter la sortie audio initiale"
         self.fade.stop()
+        self.objs.stop()
         return self
         
     def play(self):

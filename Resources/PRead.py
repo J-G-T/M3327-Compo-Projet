@@ -14,19 +14,29 @@ class PRead:
             Point de depart de la lecture du son, de 0 a 1 ou 0 est le debut du 0 et 1 sa fin.
         max : PyoObject ou Float 
             Point final de la lecture du son.
+        type : Float
+            Choix du type de lecteur pour l'objet Pointer2 (0:Sine, 1:Phasor)
         mul : float ou PyoObject
             Controle du volume de l'objet.
 
     '''
-    def __init__(self, input, spd=0.7, min=0.66, max=0.8, mul=0.5):
+    def __init__(self, input, spd=0.7, min=0.66, max=0.8, type=0, mul=0.5):
         self.input = input
         #Longueur du son
         self.length = sndinfo(self.input)[1]
         #SndTable
         self.sndtable = SndTable(self.input, start=0, stop=self.length)
+        #Valeur de spd en SIG pour permettre un bon controle
+        self.spd = Sig(spd)
         #Initialisation du controle de l'index
-        self.ind = Sine(spd).range(min, max)
-        #Pointer pour lire la table selon l'index
+        if type == 0:
+            self.ind = Sine(self.spd).range(min, max)
+        elif type == 1:
+            self.ind = Phasor(self.spd/self.length)
+        elif type == 2:
+            self.chaos = ChenLee(pitch=spd, chaos=0.5, stereo=False, mul=0.5)
+            self.ind = Scale(self.chaos, inmin=-1, inmax=1, outmin=0, outmax=1)
+        #Pointer pour lire la table selon l'index choisi
         self.point = Pointer2(self.sndtable, self.ind, mul=mul)
 
     def out(self, chnl=0):
@@ -37,11 +47,20 @@ class PRead:
     def sig(self):
         "Retourne le signal audio de la classe, pour le post-traitement."
         return self.point
+
+    def setSpd(self, x):
+        "Change la valeur de la vitesse de lecture du son"
+        self.spd.value = x
         
+    def stop(self):
+        "Arrete la sequence jouee"
+        self.point.stop()
+        self.ind.stop()
+
 #SECTION TEST#
 if __name__ == "__main__":
 
-    TEST = 2
+    TEST = 1
 
     audioServer = Server(sr=44100, nchnls=2, buffersize=256).boot()
     audioServer.start()    
@@ -49,9 +68,11 @@ if __name__ == "__main__":
     sound = 'mota.wav'
 
     if TEST == 1:
-        pr = PRead(sound, spd=0.4, min=0.1, max=0.5, mul=0.3).out()
-        
+        pr = PRead(sound, spd=0.00001, type=2, mul=0.3).out()
     elif TEST == 2:
         pr2 = PRead(sound, spd=7, min=0.4, max=0.42, mul=0.3).out()
+    elif TEST == 3:
+        autspd = Sine(0.1).range(0.4, 3.4)
+        pr3 = PRead(sound, spd=autspd, min=0, max=1, type=1, mul=0.3).out()
         
     audioServer.gui(locals())
