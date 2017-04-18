@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# encoding: utf-8
+
 from pyo import *
 import random
 
@@ -22,9 +25,9 @@ class DM:
             Balance entre wet/dry du signal de reverb.
 
     '''
-    def __init__(self, table, ffrq=500, f1=0, f2=1, q=2, feedback=0.6, bal=0.3, mul=1):
+    def __init__(self, table, ffrq=500, f1=0, f2=1, q=2, of=1000, feedback=0.6, bal=0.3, mul=1):
         self.fadn = Fader(fadein=0.001, fadeout=0.1, dur=0.1001, mul=mul)
-        self.osc = Osc(table, freq=1000).mix(2)
+        self.osc = Osc(table, freq=of).mix(2)
         self.nos = Noise(mul=self.fadn)
         self.filt1 = Biquad(self.nos*self.osc, freq=ffrq, q=q, type=f1)
         self.filt2 = Biquad(self.filt1, freq=ffrq, q=q, type=f2)
@@ -58,16 +61,17 @@ class DM:
 #SECTION TEST#
 if __name__ == "__main__":
 
-    TEST = 2
+    TEST = 0
 
-    audioServer = Server(sr=44100, nchnls=2, buffersize=256).boot()
+    audioServer = Server(sr=44100, nchnls=2, buffersize=256, winhost='asio').boot()
     audioServer.start()
 
     tabd = CurveTable(list=[(0,0.7), (1024, 0.3), (2048, 0.3), (4096, 0.8), (6144, 0.05), (8192, 0)])
     
 
     if TEST == 0:
-        drm = DM(tabd, ffrq=1000, f1=0, f2=1).play()
+        autof = Sine(40).range(20, 800)
+        drm = DM(tabd, ffrq=1000, f1=0, f2=1, of=autof).play()
         def drum():
             drm.play()
         patty = Pattern(drum, time=0.5).play()

@@ -1,10 +1,13 @@
+#!/usr/bin/env python
+# encoding: utf-8
+
 from pyo import *
 import random
 from Resources.DM import DM
 from Resources.OscAug import OscAug
 
 #DEVELOPPEMENT #
-s = Server().boot()
+s = Server(winhost='asio').boot()
 
 #Table pour OscAug#
 tab = CurveTable(list=[(0, 0), (250, 0.1), (500, 0.25), (1000, 0.075), (1500, 0.1), (2000, 0.7), (3000, 0.7), 
@@ -35,15 +38,17 @@ om2 = OscAug(tab2, phs=0.35, ofrq=midiToHz(56), allfeed=8, dur=4.5, mul=0.25)
 om.sFade(1.2, 2.3); om2.sFade(1.2, 2.3)
 
 #Rythme principal.
-autdm = Sine(0.09).range(0, 0.5)
-drm = DM(tabd, ffrq=1000, f1=0, f2=1, mul=autdm)
+autdrm = Sine(0.09).range(0, 0.5)
+autof1 =Sine(40).range(20, 800)
+drm = DM(tabd, ffrq=1000, f1=0, f2=1, of=autof1, mul=autdrm)
 #Rthm B.
 autdrb = Sine(.5).range(250, 400)
 drb = DM(tabd, ffrq=autdrb, f1=0, f2=0, mul=0.7)
 drbverb = WGVerb(drb.sig(), feedback=0.8, bal=0.3).out()
 
 #Rythm cymb.
-dcmb = DM(tabd, ffrq=350, f1=1, f2=3, mul=0.3)
+autof2= Sine(30).range(200, 2000)
+dcmb = DM(tabd, ffrq=350, f1=1, f2=3, of=autof2, mul=0.3)
 rcfad = Fader(fadein=0.1, fadeout=0.1, dur=0.1001)
 filtest1 = Tone(dcmb.sig(), freq=4500, mul=rcfad).out()
 
@@ -202,7 +207,7 @@ patm = Pattern(function=[melo], time=2).play()
 patr = Pattern(function=drum, time=0.125)
 
 #Trig Drum Bass
-btdb = Beat(time=.125, taps=16, w1=40, w2=50, w3=35)
+btdb = Beat(time=.125, taps=16, w1=70, w2=50, w3=35)
 patb = TrigFunc(btdb, function=dbass).play()
 
 #Trig Drum Cymb.
