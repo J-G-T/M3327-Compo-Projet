@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# encoding: utf-8
+
 from pyo import *
 
 class Graverb:
@@ -35,7 +38,12 @@ class Graverb:
         self.filt = Biquadx(self.input, freq=self.frqf, type=type, stages=5, mul=self.trigenv)
         #Reverb
         self.verb = WGVerb(self.filt, feedback=fb, cutoff=5000, bal=bal, mul=mul)
-        
+
+    def stop(self):
+        "Arret complet du son."
+        self.verb.stop()
+        return self
+
     def out(self, chnl=0):
         "Signal audio en sortie."
         self.verb.out(chnl)
