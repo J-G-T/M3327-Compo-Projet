@@ -2,7 +2,6 @@
 # encoding: utf-8
 
 from pyo import *
-import time
 
 class PRead:
     '''
@@ -32,6 +31,8 @@ class PRead:
         self.sndtable = SndTable(self.input, start=0, stop=self.length)
         #Valeur de spd en SIG pour controle
         self.spd = Sig(spd)
+        #Gestion de valeur Type
+        self.type = Sig(type)
         #Initialisation du controle de l'index
         if type == 0:
             self.ind = Sine(self.spd).range(min, max)
@@ -58,19 +59,11 @@ class PRead:
     def setSpd(self, x):
         "Change la valeur de la vitesse de lecture du son"
         self.spd.value = x
-        
-    def setType(self, x):
-        "Change le type d'index"
-        self.type.value = x
 
     def stop(self):
         "Arrete la sequence jouee"
         self.point.stop()
         return self
-        
-    def randread(self, x):
-        "Lecture aleatoire du son. 'x' est un facteur de variation d'hasard, 0 etant variation presque nul et 1 chaotique."
-        
 
 
 #SECTION TEST#
@@ -78,7 +71,7 @@ if __name__ == "__main__":
 
     TEST = 3
 
-    audioServer = Server(sr=44100, nchnls=2, buffersize=256, winhost='asio').boot()
+    audioServer = Server(sr=44100, nchnls=2, buffersize=256).boot()
     audioServer.start()    
 
     sound = 'mota.wav'

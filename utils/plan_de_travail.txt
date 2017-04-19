@@ -3,64 +3,97 @@
 
 2 - Analyses des besoins:
     Création d'objet(s) sonore(s) :  Construire les sons employés dans la/les pièce(s), développer la sonorité.
-    Algorithme : Fonctionnement et évolution dans le temps des objets sonores.
-    Mode de diffusion : Écoute sur Radio Pyo.
+
+    Algorithme : Fonctionnement et évolution dans le temps des objets sonores. C'est la gestion des évévements ainsi que les objets
+                       complémentés de hasard (random) qui permettent de modifier la pièce d'une écoute à une autre.
+    
+    Mode de diffusion : 
+        Composition_1: Écoute sur Radio Pyo.
+        Composition_2: (Éventuellement) Sur un standalone qui permettra de faire un choix de trois sons piger dans l'ordinateur qui
+                                exécute le programme, puis aussi un choix sur le temps de la pièce (jusqu'à l'infinie!).
+    
 
 3 - Acquisition de connaissances:
-    Étude de code source de pièce d'autres compositeurs (ex. Pièce sur Radio Pyo).
-        - Aquisition de la compréhension des event_0 (avec Metro, counter et Score) pour construire l'évolution temporelle de la pièce.
-        - Comprendre la manière de construire un fichier python pour l'introduire sur la radio pyo (organisation d'un projet en un seul fichier)
+    
+    Étude de code source de pièce d'autres compositeurs (ex. Pièce sur Radio Pyo):
+        Notamment: https://github.com/tiagovaz/radiopyo/blob/master/belangeo_pulsar.py
+            - Aquisition de la compréhension des event_0 (avec Metro, counter et Score) pour construire l'évolution temporelle de la pièce.
+            - Comprendre la manière de construire un fichier python pour l'introduire sur la radio pyo (organisation d'un projet en un seul fichier)
         
-    Écoute de pièce électroacoustique pour trouver une influence/des idées.
-        - Écoute des pièces sur radio-pyo pour influence de la compo_1
-        - Diverses écoutes de pièce à répétition (Music in 12 Parts, Philip Glass).
+    Écoute de pièce de musique (électroacoustique, classique, algorithmique, ...) pour trouver une influence/des idées.
+        - Écoute des diverses pièces sur radio-pyo pour influence de la compo_1, notamment au niveau dy rythme et du timbre des sons.
+        - Écoutes de pièce à répétition (Music in 12 Parts, Philip Glass) pour la compo_2. Permet d'avoir une meilleur idée de ce qui fonctionne en terme de
+          répétition d'un même son et de variation autour de celui-ci. Cela permet donc de diriger le travail de l'algorithmie et permet un résultat
+          plus satisfaisant dans le cas où les sons provienne d'une pièce (comme 'Vert' d'Harmonium).
         
-    Lecture d'article sur l'algorithmie en musique.
-        - Synth Secrets, Part 2: The Physics of percussion, pour la réalisation de l'objet DM.
+    Lecture d'article sur la composition d'un objet sonore:
+        - Synth Secrets, Part 2: The Physics of percussion, pour la réalisation de l'objet DM. 
+          L'article a permis de réaliser des sons plus justes et plus près de la réalité d'une batterie (cymbale, ...)
+    
+    Lecture d'article sur l'algorithmie en musique:
+        -Texte sur l'histoire de l'algorithme plus orientée musicale: http://articles.ircam.fr/textes/Andreatta11b/index.pdf
+         Article intéressant sur l'algorithmie avant et après l'ordinateur, permet de mieux comprendre le jeu d'un son mélodique à caractère algorithmique
+         (Dodécaphonisme)
         
-    Lecture sur les objets sonores (morphologie du son, synthèse des sons électroniques, etc.).
 
 4 - Modèle:
     Une composition algorithmique évolue constamment dans le temps, elle se divise en 
     deux aspects soit: les objets sonores et l'algorithme.
     
-    Les objets sonores constitues l'essence même de la pièce. Il faudra sculpter la matière
+    Les objets sonores constitues l'essence même de la pièce. Il faut sculpter la matière
     des sons afin d'obtenir des sons complexes, esthétiques et cohérents selont les besoins 
-    de la composition. Le travail des sons s'effectuera avec un soucie des sons qui le 
-    complémente, de l'algorithme et de la musicalité de la pièce en général.
+    de la composition. Le travail des sons s'effectue avec un soucie des sons qui le 
+    complémente et de la musicalité de la pièce en général. 
     
     L'algorithme façonne la pièce et lui donne sa forme. Idéalement, il n'effectue pas 
-    exactement le même travail à chaque fois, on laisse une partie de la pièce entre
-    les mains du hasard. L'algorithme tient en compte les objets sonores et permettra
-    l'organisation de ceux-ci temporellement. 
+    exactement le même travail à chaque fois, on laisse une partie de la pièce entre les
+    mains du hasard. L'algorithme permet alors une organisation temporelle de la pièce 
+    qui se ressemble d'une écoute à une autre.
 
 
 5 - Méthode:
     Les divers objets sonores seront initialement créer dans une section audio d'un programme destinée
-    au développement de ceux-ci. Leur nature, pour l'instant, reste indéfinie (synthèse sonore, 
-    enregistrement, mixte...). Le travail se fera à l'aide de différent procédé de synthèse sonore: 
-    filtrage, modulation de fréquence, réverbération, ...
+    au développement de ceux-ci. Leur nature est différente d'une composition à une autre: 
+        Composition_1: Synthèse sonore issue entièrement de l'ordinateur, en provenance de Pyo. 
+        Composition_2: Fichier sonore préalablement enregistré (wav, ...), dans le cas des sons 'démos' de
+                                de la composition, on retrouve ceux-ci: Enregistrement sonore, Synthèse, micro-montage.
     
-    La section algorithmique de la/les pièce(s) se développera en parrallèle au son en prenant 
-    compte de leur nature morphologique et leur fonction. L'algorithme fera plutôt preuve d'un 
-    travail au niveau de la temporalité et sera prédéterminé et se divisera alors en plusieurs
-    algorithmes différents pour chaque sons.
+    Plusieurs effets audio-numérique sont d'ailleurs employés dans les pièces: 
+        -Filtrage, reverbération, granulation, modulation en (anneau, fréquence, amplitude), compression...
     
-6 - Implémentation:
-    Composition 1: Diffusion sur RadioPyo
-        -Class
-            1. OscAug
-            2. DM 
+    La section algorithmique des pièces se développe en parrallèle au son. L'algorithme fait plutôt preuve d'un 
+    travail au niveau de la temporalité et est prédéterminé. Il est alors divisé sous diverse section qui se retrouve 
+    dans son dossier de composition générale respectif. 
 
-    Composition 2: Transformation graduelle d'une pièce générée par trois sons au choix.
-        -Class
-            1. PRead
-            2. Graverb
-            3. AutoR
+6 - Implémentation:
+    
+    Création des compositions sous l'environnement Python, programme: Pyo
+
+    Composition 1: Diffusion sur RadioPyo
+        -Compo_1.py 
+            -> Fichier contenant toute la gestion séquentielle des événements algorithimique.
+
+        -Classes encapsulées:
+            1. OscAug.py
+            2. DM.py
+
+    Composition 2: Transformation graduelle d'une pièce générée par trois sons au choix, se développera sous un standalone.
+        -Compo_2.py 
+            -> Fichier contenant toute la gestion séquentielle des événements algorithimique.
+            
+        -Classes encapsulées:
+            1. PRead.py
+            2. Graverb.py
+            3. AutoR.py
+            
+    Gestion des événements depuis les objets (pyo) suivants:
+        1. Metro 
+        2. Counter
+        3. Score
+            ->Cela permet une gestion temporelle précise de la pièce depuis l'objet Metro qui fait avancer des événements 
+               prédéterminé. L'algorithme dans la composition_1 prend en compte la nature sonore des classes sonores principal
+               employées au sein de la piece (soit OscAug et DM), mais la composition_2 ne s'attend pas à recevoir un type
+               de son précis puisque l'entièreté du morceau repose sur un hasard des sources sonores. 
 
 7 - Test et maintenance
     Tous les jours!
-                
-
-
-

@@ -77,6 +77,10 @@ class AutoR:
         "Gestion du Fadein et Fadeout"
         self.fad.fadein = x
         self.fad.fadeout = y
+        
+    def setMul(self, x):
+        "Gestion du volume"
+        self.fad.mul = x
 
     def out(self, chnl=0):
         "Signal audio en sortie."
@@ -92,7 +96,7 @@ if __name__ == "__main__":
 
     TEST = 2
 
-    audioServer = Server(sr=44100, nchnls=2, buffersize=256, winhost='asio').boot()
+    audioServer = Server(sr=44100, nchnls=2, buffersize=256).boot()
     audioServer.start()    
 
     env = CosTable(list=[(0,0.0000), (2000, 0.7), (3970,0.8133), (5000, 0.7), (8192,0.0000)])
