@@ -8,6 +8,7 @@ from Resources.OscAug import OscAug
 
 #DEVELOPPEMENT #
 s = Server(winhost='asio').boot()
+s.setStartOffset(60)
 
 #Table pour OscAug#
 tab = CurveTable(list=[(0, 0), (250, 0.1), (500, 0.25), (1000, 0.075), (1500, 0.1), (2000, 0.7), (3000, 0.7), 
@@ -28,9 +29,9 @@ tabd = CurveTable(list=[(0,0.7), (1024, 0.3), (2048, 0.3), (4096, 0.8), (6144, 0
 #Graves
 autog1 = Sine(0.1).range(0.1, 0.20)
 autog2 = Sine(0.05).range(0.15, 0.22)
-og = OscAug(tab, phs=.05, ofrq=50, dur=95, mul=autog1)
-og2 = OscAug(tab, phs=.01, ofrq=101, dur=87, mul=autog2)
-og3 = OscAug(tab3, phs=.07, allfeed=.05, ofrq=51, dur=103, mul=0.27).out()
+og = OscAug(tab, phs=.05, ofrq=50, dur=93, mul=autog1)
+og2 = OscAug(tab, phs=.01, ofrq=101, dur=85, mul=autog2)
+og3 = OscAug(tab3, phs=.07, allfeed=.05, ofrq=51, dur=101, mul=0.27).out()
 
 #Melo
 om = OscAug(tab2, phs=0.28, ofrq=midiToHz(53), allfeed=10, dur=4.5, mul=0.25)
@@ -39,18 +40,24 @@ om.sFade(1.2, 2.3); om2.sFade(1.2, 2.3)
 
 #Rythme principal.
 autdrm = Sine(0.09).range(0, 0.5)
-autof1 =Sine(40).range(20, 800)
+autof1 =Sine(40).range(20, 1000)
 drm = DM(tabd, ffrq=1000, f1=0, f2=1, of=autof1, mul=autdrm)
 #Rthm B.
 autdrb = Sine(.5).range(250, 400)
-drb = DM(tabd, ffrq=autdrb, f1=0, f2=0, mul=0.7)
+autof2 =Sine(40).range(20, 120)
+drb = DM(tabd, ffrq=autdrb, f1=0, f2=0, of=autof2, mul=0.7)
 drbverb = WGVerb(drb.sig(), feedback=0.8, bal=0.3).out()
 
 #Rythm cymb.
-autof2= Sine(30).range(200, 2000)
-dcmb = DM(tabd, ffrq=350, f1=1, f2=3, of=autof2, mul=0.3)
+autof3 = Sine(30).range(200, 2000)
+dcmb = DM(tabd, ffrq=350, f1=1, f2=3, of=autof3, mul=0.3)
 rcfad = Fader(fadein=0.1, fadeout=0.1, dur=0.1001)
 filtest1 = Tone(dcmb.sig(), freq=4500, mul=rcfad).out()
+
+#Rythm final.
+autof4 = Sine(40).range(20, 80)
+dmf = DM(tabd, ffrq=500, f1=0, f2=0, q=1, of=autof4, feedback=0.67, bal=0.35, mul=1.2)
+
 
 ################
 #GESTION DES EVENTS#
@@ -58,6 +65,7 @@ filtest1 = Tone(dcmb.sig(), freq=4500, mul=rcfad).out()
 
 list = [53, 55, 56, 58, 60, 61, 63, 65, 67, 68, 70, 72, 73, 75]
 count = 0
+cf = 0
 prate = 0
 lastind = 7
 z = 6
@@ -72,6 +80,18 @@ def dbass():
 def dcymb():
     dcmb.splay()
     rcfad.play()
+
+def final():
+    global cf
+    if cf == 40:
+        patf.stop()
+    elif cf % 10 == 0:
+        pass
+    elif cf % 4 != 0:
+        dmf.play()
+    elif cf % 4 == 0:
+        dcmb.play()
+    cf += 1
 
 def melo():
     global count, prate, lastnote, lastind, z, x
@@ -183,14 +203,15 @@ def event_24():
     patr.stop()
     btdb.stop()
     btcmb.stop()
-    patb.stop()
-    patc.stop()
-    m.stop()
+    patf.play()
 def event_25():
     pass
 def event_26():
+    m.stop()
+def event_27():
     pass
 
+    
 ##############
 #SECTION PATTERN#
 ##############
@@ -201,17 +222,22 @@ c = Counter(m, min=0, max=26)
 sc = Score(c)
 
 #Trig pour melo
-patm = Pattern(function=[melo], time=2).play()
+patm = Pattern(function=melo, time=2).play()
 
 #Trig Drum Principal
 patr = Pattern(function=drum, time=0.125)
 
 #Trig Drum Bass
 btdb = Beat(time=.125, taps=16, w1=70, w2=50, w3=35)
-patb = TrigFunc(btdb, function=dbass).play()
+patb = TrigFunc(btdb, function=dbass)
 
 #Trig Drum Cymb.
 btcmb = Beat(time=.125, taps=16, w1=10, w2=20, w3=25)
-patc = TrigFunc(btcmb, function=dcymb).play()
+patc = TrigFunc(btcmb, function=dcymb)
+
+#Trig Drum Final.
+patf = Pattern(final, time=.125)
+
+
 
 s.gui(locals())
