@@ -15,6 +15,16 @@
 
 3 - Acquisition de connaissances:
     
+    Plusieurs connaissances seront obtenu depuis le cours de création en lagage python 2:
+         -Tout les cours sur la création d'objets dans le cadre d'une composition et/ou les cours sur la composition d'une pièce. 
+         -Phase vocoder (point de départ de compo_2).
+         -Interface graphique (code en classe et note de cours).
+         -Création d'un standalone.
+    
+    Le projet se développera alors dans le sens d'un standalone, alors il sera important de revoir les cours sur la création d'une interface graphique et
+    celui sur la création du standalone, ainsi que des tutoriels:
+        -http://zetcode.com/wxpython/ (Tutoriel sur wxPython)
+
     Étude de code source de pièce d'autres compositeurs (ex. Pièce sur Radio Pyo):
         Notamment: https://github.com/tiagovaz/radiopyo/blob/master/belangeo_pulsar.py
             - Aquisition de la compréhension des event_0 (avec Metro, counter et Score) pour construire l'évolution temporelle de la pièce.
@@ -34,7 +44,6 @@
         -Texte sur l'histoire de l'algorithme plus orientée musicale: http://articles.ircam.fr/textes/Andreatta11b/index.pdf
          Article intéressant sur l'algorithmie avant et après l'ordinateur, permet de mieux comprendre le jeu d'un son mélodique à caractère algorithmique
          (Dodécaphonisme)
-        
 
 4 - Modèle:
     Une composition algorithmique évolue constamment dans le temps, elle se divise en 
