@@ -54,6 +54,10 @@ class DM:
         "Change la valeur de feedback de la reverb"
         self.dverb.feedback = x
         
+    def sMul(self, x):
+        "Change la valeur du volume."
+        self.fadn.mul = x
+        
     def tail(self):
         self.fadn.stop()
         self.osc.stop()
@@ -91,7 +95,6 @@ if __name__ == "__main__":
         drm = DM(tabd, ffrq=1000, f1=0, f2=1, feedback=0.85)
         def drum():
             drm.play()
-            
         def event_0():
             pass
         def event_1():

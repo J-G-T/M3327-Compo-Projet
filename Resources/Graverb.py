@@ -26,7 +26,7 @@ class Graverb:
             Controle du volume de l'objet.
 
     '''
-    def __init__(self, input, env, time=1, dur=0.15, fb=0.8, type=0, bal=0.5, mul=0.3):
+    def __init__(self, input, env, time=1, dur=0.15, fb=0.8, type=0, bal=0.5, mul=1):
         self.input = input
         #Metronome
         self.met = Metro(time=time).play()
@@ -40,9 +40,29 @@ class Graverb:
         self.verb = WGVerb(self.filt, feedback=fb, cutoff=5000, bal=bal, mul=mul)
 
     def stop(self):
-        "Arret complet du son."
+        "Arret du son."
         self.verb.stop()
         return self
+        
+    def setTime(self, x):
+        "Gestion du parametre time."
+        self.met.time = x
+        
+    def setDur(self, x):
+        "Gestion du parametre de duree."
+        self.trigenv.dur = x
+        
+    def setFb(self, x):
+        "Gestion du parametre de feedback."
+        self.verb.feedback = x
+
+    def setType(self, x):
+        "Gestion du type de filtre."
+        self.filt.type = x
+
+    def setBal(self, x):
+        "Gestion du parametre de balance."
+        self.verb.bal = x
 
     def out(self, chnl=0):
         "Signal audio en sortie."

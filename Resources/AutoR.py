@@ -26,7 +26,7 @@ class AutoR:
             Controle du volume de l'objet.
 
     '''
-    def __init__(self, input, env, time=1, dur=0.15, dens=100, filfrq=18000, ftt=2, mul=0.1):
+    def __init__(self, input, env, time=1, dur=0.15, dens=100, filfrq=18000, ftt=2, mul=1):
         #Input
         self.input = input
         #Fader
@@ -96,7 +96,7 @@ if __name__ == "__main__":
 
     TEST = 2
 
-    audioServer = Server(sr=44100, nchnls=2, buffersize=256).boot()
+    audioServer = Server(sr=44100, nchnls=2, buffersize=256, winhost='asio').boot()
     audioServer.start()    
 
     env = CosTable(list=[(0,0.0000), (2000, 0.7), (3970,0.8133), (5000, 0.7), (8192,0.0000)])
@@ -104,8 +104,14 @@ if __name__ == "__main__":
 
     if TEST == 1:
         autr = AutoR(sound, env, time=0.125, dens=250, filfrq=2000, ftt=2, mul=0.3).out()
+        def play():
+            autr.play()
+        pat = Pattern(play, time=0.125).play()
         
     elif TEST == 2:
         autr = AutoR(sound, env, time=1, dens=500, filfrq=15000, ftt=0, mul=0.1).out()
+        def play():
+            autr.play()
+        pat = Pattern(play, time=1).play()
         
     audioServer.gui(locals())

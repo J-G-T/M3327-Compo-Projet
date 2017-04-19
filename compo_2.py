@@ -6,7 +6,7 @@ from Resources.Graverb import Graverb
 from Resources.PRead import PRead
 from Resources.AutoR import AutoR
 
-s = Server().boot()
+s = Server(buffersize=512, winhost='asio').boot()
 
 '''
 Compo_3: AutoMusic 
@@ -16,7 +16,7 @@ Compo_3: AutoMusic
         Sound1 -> Deconstruction sonore -> Sound2 -> Deconstruction sonore -> Sound3 -> Finale. 
 '''
 
-GSOUND = 0
+GSOUND = 1
 
 if GSOUND == 0:
     sound1 = 'Sound/mota.wav'
@@ -72,23 +72,25 @@ grav3 = Fader(fadein=0.5, fadeout=1.3, dur=2, mul=1)
 grv3 = Graverb(pr3.sig(), env2, time=2, dur=2, fb=0.8, type=0, bal=0.7, mul=grav3)
 
 #Trames sonores.
-adr1 = AutoR(sound1, env, time=10, dur=10, dens=200, ftt=0, filfrq=4000, mul=0.3)
+adr1 = AutoR(sound1, env, time=10, dur=10, dens=200, ftt=0, filfrq=4000, mul=0.27)
 adr1.setFadInOut(5, 5)
 
-adr2 = AutoR(sound2, env2, time=5, dur=5, dens=400, ftt=1, filfrq=2000, mul=0.5)
+adr2 = AutoR(sound2, env2, time=5, dur=5, dens=400, ftt=1, filfrq=2000, mul=0.4)
 adr2.setFadInOut(3, 2)
 
-adr3 = AutoR(sound3, env, time=7, dur=7, dens=350, ftt=0, filfrq=1500, mul=0.4)
+adr3 = AutoR(sound3, env, time=7, dur=7, dens=350, ftt=0, filfrq=1500, mul=0.35)
 adr3.setFadInOut(5, 2)
 
 
-compts = Compress(adr1.sig()+adr2.sig()+adr3.sig(), thresh=-35, ratio=3)
+compts = Compress(adr1.sig()+adr2.sig()+adr3.sig(), thresh=-40, ratio=3)
 
-#Deconstruction total
+#Deconstruction total / Finale
 prand1 = PRead(sound1, spd=0.09, min=0.1, max=0.55, type=3, mul=0.15)
 prand2 = PRead(sound2, spd=0.14, min=0.05, max=0.2, type=3, mul=0.15)
 prand3 = PRead(sound3, spd=0.17, min=0.5, max=0.8, type=3, mul=0.15)
 
+grav4 = Fader(fadein=0.15, fadeout=0.15, dur=0.3, mul=1)
+grv4 = Graverb(pr3.sig(), env2, time=0.3, dur=0.3, fb=0.8, type=0, bal=0.5, mul=grav4)
 
 ####################
 #GESTION DES EVENEMENTS#
@@ -109,6 +111,8 @@ def graverb2():
     grav2.play()
 def graverb3():
     grav3.play()
+def graverb4():
+    grav4.play()
 #TRAMES
 def trame1():
     adr1.play()
@@ -189,6 +193,7 @@ def event_23():
 def event_24():
     ar3.out(); pi3.play()
     grv3.out(); pg3.play()
+    pg3.time = 0.47
     adr1.setTime(6); adr1.setDur(12); adr1.setDens(110); adr1.setFilfrq(2000); adr1.setType(1); adr1.setFadInOut(1, 1)
     pt1.time=6
     adr1.out(); pt1.play()
@@ -199,12 +204,14 @@ def event_26():
     prand1.stop()
     pr1.setSpd(0.005); 
     grv1.out(); pg1.play()
+    pg1.time = 0.13
 def event_27():
     pr2.setSpd(0.15); 
     grv2.out(); pg2.play()
     prand3.out()
 def event_28():
     adr3.out(); pt3.play()
+    grv4.out(); pg4.play()
 def event_29():
     prand1.out()
     adr3.setTime(10); adr3.setDur(10); adr3.setDens(350); adr3.setFilfrq(5000); adr3.setFadInOut(0.5, 1); adr3.setMul(1)
@@ -225,12 +232,14 @@ def event_31():
     prand2.stop()
     prand3.stop()
 def event_32():
-    pass
+    grv4.stop(); pg4.stop()
 def event_33():
     adr3.stop(); pt3.stop()
-def event_34():
     m.stop()
-    
+def event_34():
+    pass
+    #La piece peut duree plus longtemps. Eventuellement, le projet permettra de specifier un temps de deroulement de la piece
+    #soit plus cours ou plus long.
     
 #Pattern general
 pi1 = Pattern(parti1, time=0.2)
@@ -240,6 +249,7 @@ pi3 = Pattern(parti3, time=0.5)
 pg1 = Pattern(graverb1, time=0.2)
 pg2 = Pattern(graverb2, time=0.5)
 pg3 = Pattern(graverb3, time=1)
+pg4 = Pattern(graverb4, time=0.3)
 
 pt1 = Pattern(trame1, time=10)
 pt2 = Pattern(trame2, time=4)
